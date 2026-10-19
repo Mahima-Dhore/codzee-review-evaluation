@@ -33,3 +33,15 @@ test("deletes an existing task", () => {
   assert.equal(deleteTask(task.id), true);
   assert.equal(deleteTask(task.id), false);
 });
+
+test("does not expose internal state from created tasks", () => {
+  const task = createTask("Protected task");
+
+  task.title = "Changed externally";
+  task.completed = true;
+
+  const storedTask = listTasks().find((item) => item.id === task.id);
+
+  assert.equal(storedTask.title, "Protected task");
+  assert.equal(storedTask.completed, false);
+});

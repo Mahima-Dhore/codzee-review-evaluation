@@ -9,7 +9,7 @@ export function createTask(title) {
   };
 
   tasks.push(task);
-  return task;
+ return { ...task };
 }
 
 export function listTasks() {
