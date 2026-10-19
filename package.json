@@ -1,0 +1,10 @@
+
+{
+  "name": "codzee-review-evaluation",
+  "version": "1.0.0",
+  "description": "A task manager for evaluating AI code reviews",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}
