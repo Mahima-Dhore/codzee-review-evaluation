@@ -33,3 +33,30 @@ test("deletes an existing task", () => {
   assert.equal(deleteTask(task.id), true);
   assert.equal(deleteTask(task.id), false);
 });
+
+test("rejects empty task titles", () => {
+  assert.throws(() => createTask("   "), /non-empty string/);
+});
+
+test("trims whitespace from task titles", () => {
+  const task = createTask("  Review code  ");
+  assert.equal(task.title, "Review code");
+});
+
+test("rejects unsupported update fields", () => {
+  const task = createTask("Safe task");
+
+  assert.throws(
+    () => updateTask(task.id, { admin: true }),
+    /unsupported fields/
+  );
+});
+
+test("rejects non-boolean completion values", () => {
+  const task = createTask("Safe task");
+
+  assert.throws(
+    () => updateTask(task.id, { completed: "yes" }),
+    /must be a boolean/
+  );
+});
