@@ -33,3 +33,28 @@ test("deletes an existing task", () => {
   assert.equal(deleteTask(task.id), true);
   assert.equal(deleteTask(task.id), false);
 });
+
+test("searches tasks without case sensitivity", () => {
+  const task = createTask("Prepare Codzee Review");
+
+  const results = listTasks({ query: "codzee review" });
+
+  assert.ok(results.some((item) => item.id === task.id));
+});
+
+test("filters tasks by completion status", () => {
+  const task = createTask("Completed task");
+  updateTask(task.id, { completed: true });
+
+  const results = listTasks({ completed: true });
+
+  assert.ok(results.some((item) => item.id === task.id));
+  assert.ok(results.every((item) => item.completed));
+});
+
+test("rejects a non-string search query", () => {
+  assert.throws(
+    () => listTasks({ query: 123 }),
+    /Search query must be a string/
+  );
+});
